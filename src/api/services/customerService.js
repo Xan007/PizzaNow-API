@@ -13,6 +13,14 @@ export const findCustomerById = async (customer_id) => {
     return rowResult
 }
 
+export const getOrdersFromCustomer = async (customer_id) => {
+    const rowsResult = (await db.query("SELECT * FROM orders INNER JOIN customers USING(customer_id) WHERE customer_id = $1::INT", [customer_id])).rows
+
+    return rowsResult
+}
+
 export default {
-    findCustomerById
+    findCustomerById,
+    getCustomers,
+    getOrdersFromCustomer
 }
