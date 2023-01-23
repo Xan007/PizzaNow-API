@@ -8,7 +8,7 @@ export const getPizzaType = async(req, res) => {
     const { pizzaType } = req.params
 
     try {
-        res.send(await pizzaService.getPizzaFromType(pizzaType))
+        res.send(await pizzaService.findPizzaByType(pizzaType))
     } catch (err) {
         res.status(400).send(err)
     }
