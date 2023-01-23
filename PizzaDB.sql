@@ -62,7 +62,7 @@ ALTER SEQUENCE public.customers_customer_id_seq OWNED BY public.customers.custom
 CREATE TABLE public.orders (
     order_id integer NOT NULL,
     customer_id integer NOT NULL,
-    worker_id integer NOT NULL,
+    worker_id integer,
     state character varying(30) NOT NULL,
     pizza_id integer NOT NULL
 );
@@ -167,6 +167,7 @@ ALTER TABLE ONLY public.workers ALTER COLUMN worker_id SET DEFAULT nextval('publ
 --
 
 COPY public.customers (customer_id, first_name, last_name) FROM stdin;
+1	Sander	Sierra
 \.
 
 
@@ -198,7 +199,7 @@ COPY public.workers (worker_id, job, first_name, last_name) FROM stdin;
 -- Name: customers_customer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: me
 --
 
-SELECT pg_catalog.setval('public.customers_customer_id_seq', 1, false);
+SELECT pg_catalog.setval('public.customers_customer_id_seq', 1, true);
 
 
 --
