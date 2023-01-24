@@ -12,7 +12,7 @@ export const createOrder = async (req, res) => {
 
         res.send("Order created")
     } catch (err) {
-        res.status(400).send(`${err}`)
+        next(err)
     }
 }
 
@@ -22,7 +22,7 @@ export const getOrder = async (req, res) => {
     try {
         res.send(await orderService.findOrderById(orderId))
     } catch (err) {
-        res.status(400).send(`${err}`)
+        next(err)
     }
 }
 
@@ -34,7 +34,7 @@ export const updateOrder = async (req, res) => {
         await orderService.findAndUpdateOrder(orderId, new_state)
         res.send("Se actualizo el estado de la orden")
     } catch (err) {
-        res.status(400).send(`${err}`)
+        next(err)
     }
 }
 
@@ -45,6 +45,6 @@ export const deleteOrder = async (req, res) => {
         await orderService.findAndDeleteOrder(orderId)
         res.send("Se elimino la orden correctamente")
     } catch (err) {
-        res.status(400).send(`${err}`)
+        next(err)
     }
 }

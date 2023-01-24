@@ -1,35 +1,40 @@
 import workerService from "../services/workerService.js"
 
-export const getAllWorkers = async(req, res) => {
+export const getAllWorkers = async (req, res) => {
     res.send(await workerService.getWorkers())
 }
 
-export const getWorkerById = async(req, res) => {
+export const getWorkerById = async (req, res) => {
     const { workerId } = req.params
-    
+
     try {
         res.send(await workerService.findWorkerById(workerId))
     } catch (err) {
-        res.status(400).send(`${err}`)
+        next(err)
     }
 }
 
-export const getWorkersByJob = async(req, res) => {
+export const getWorkersByJob = async (req, res) => {
     const { job } = req.params
 
     try {
         res.send(await workerService.getWorkersFromJob(job))
     } catch (err) {
-        res.status(400).send(`${err}`)
+        next(err)
     }
 }
 
-export const getWorkerOrders = async(req, res) => {
+export const getWorkerOrders = async (req, res) => {
     const { workerId } = req.params
-    
+
     try {
-        res.send(await workerService.getOrdersFromWorker(workerId))
+        const workerArr = await workerService.findWorkerById(workerId)
+
+        if (workerArr.job && workerArr.job != "delivery")
+            return next(new Error("Worker is not in delivery job"))
+
+        return res.send(await workerService.getOrdersFromWorker(workerId))
     } catch (err) {
-        res.status(400).send(`${err}`)
+        next(err)
     }
 }
